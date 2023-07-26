@@ -1,36 +1,5 @@
 #include"Window.h"
 
-Window::WindowClass Window::WindowClass::wndcls;
-
-Window::WindowClass::WindowClass()
-{
-	hinst = GetModuleHandle(nullptr);
-	WNDCLASSEX wc = {};
-	wc.cbSize = sizeof(wc);
-	wc.hInstance = hinst;
-	wc.lpszClassName = classNm;
-	wc.style = CS_DBLCLKS;//Enables window to take double click events
-	//wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wc.lpfnWndProc = DefWindowProc;
-	//wc.hIcon = static_cast<HICON>(LoadImage(hinst, MAKEINTRESOURCE(IDI_ICON1) , IMAGE_ICON,48 , 48 , 0 ));
-	//wc.hIconSm = static_cast<HICON>(LoadImage(hinst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32 , 32 , 0));
-	RegisterClassEx(&wc);
-}
-Window::WindowClass::~WindowClass()
-{
-	UnregisterClass(classNm , hinst);
-}
-
-constexpr const char* Window::WindowClass::GetName()
-{
-	return classNm;
-}
-
-HINSTANCE Window::WindowClass::GetInstance()
-{
-	return wndcls.hinst;
-}
-
 std::atomic_uint Window::WindowCount = 0;
 
 LRESULT Window::StaticEventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam)
@@ -159,7 +128,7 @@ LRESULT Window::EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lp
 	return DefWindowProc(handle , msgcode , wparam , lparam);
 }
 
-Window::Window(HWND Parent , DWORD exStyle , const std::string& name, DWORD Style , int x , int y , int width, int height) 
+Window::Window(Window * Parent , DWORD exStyle , const std::string& window_class , const std::string& title, DWORD Style , int x , int y , int width, int height)
 	: 
 height(height), width(width)
 {
@@ -170,8 +139,8 @@ height(height), width(width)
 
 	AdjustWindowRect(&wr, Style, FALSE);
 
-	window_handle = CreateWindowEx(exStyle, WindowClass::GetName(), name.c_str(), Style, x, y, wr.right - wr.left, wr.bottom - wr.top, Parent, nullptr,
-		WindowClass::GetInstance(), nullptr);
+	window_handle = CreateWindowEx(exStyle, window_class.c_str(), title.c_str(), Style, x, y, wr.right - wr.left, wr.bottom - wr.top, Parent == nullptr ? nullptr : Parent->window_handle, nullptr,
+		GetModuleHandle(nullptr), nullptr);
 
 	if (window_handle == nullptr)
 	{

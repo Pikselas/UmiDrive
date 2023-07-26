@@ -8,19 +8,6 @@
 
 class Window
 {
-	private:
-		class WindowClass
-		{
-		 private:
-			constexpr static const char* classNm = "PikselasWindowClass";
-			WindowClass();
-			~WindowClass();
-			static WindowClass wndcls;
-			HINSTANCE hinst;
-		 public:
-			 constexpr static const char* GetName();
-			 static HINSTANCE GetInstance();
-		};
 	public:
 		class Mouse
 		{
@@ -106,7 +93,7 @@ class Window
 		Mouse mouse;
 		KeyBoard keyboard;
 	public:
-		Window(HWND Parent, DWORD exStyle, const std::string& name, DWORD Style, int x, int y, int width, int height);
+		Window(Window * Parent, DWORD exStyle, const std::string& window_class ,const std::string& title, DWORD Style, int x, int y, int width, int height);
 		~Window();
 		unsigned int GetHeight() const;
 		unsigned int GetWidth() const;
