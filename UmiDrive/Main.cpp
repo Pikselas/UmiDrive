@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     
     Label Label1(window, "Hello World!", 10, 10, 100, 100);
     
-    ScrollVerticalWindow sw(window, 150, 20, 400, 400 , 400 , 1000);
+    ScrollVerticalWindow sw(window, 150, 20, 400, 400 , 800);
 
     TextButton Button1(sw, "Click Me!", 10, 120, 100, 100);
 

@@ -4,7 +4,7 @@
 class ScrollVerticalWindow : public CustomWindow
 {
 public:
-	ScrollVerticalWindow( CustomWindow& Parent , int x , int y , int width , int height , int scrollSize , int maxSize)
+	ScrollVerticalWindow( CustomWindow& Parent , int x , int y , int width , int height , int maxSize)
 		:
 	 CustomWindow(&Parent , 0 , "" , WS_CHILD | WS_VSCROLL , x , y , width , height)
 	{
@@ -13,7 +13,7 @@ public:
 		si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
 		si.nMin = 0;
 		si.nMax = maxSize; 
-		si.nPage = scrollSize;  // Set the visible area size
+		si.nPage = height;  // Set the visible area size
 		si.nPos = 0;
 		SetScrollInfo(window_handle, SB_VERT, &si, TRUE);
 	}
