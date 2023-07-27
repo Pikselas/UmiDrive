@@ -31,12 +31,14 @@ class Window
 	public:
 		Window(Window * Parent, DWORD exStyle, const std::string& window_class ,const std::string& title, DWORD Style, int x, int y, int width, int height);
 		~Window();
+	public:
 		unsigned int GetHeight() const;
 		unsigned int GetWidth() const;
 		void Redraw() const;
 		void Update() const;
-		void ChangeTitle(const std::string& title);
-		void SetFocus();
+		void SetPosition(int x , int y) const;
+		void ChangeTitle(const std::string& title) const;
+		void SetFocus() const;
 	public:
 		using EventDispatcher = void (&)(const HWND);
 		void ProcessEvents(EventDispatcher e = DispatchWindowEvents) const;

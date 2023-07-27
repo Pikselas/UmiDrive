@@ -26,6 +26,11 @@ void Window::Update() const
 	UpdateWindow(window_handle);
 }
 
+void Window::SetPosition(int x , int y) const
+{
+	SetWindowPos(window_handle, nullptr, x , y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+}
+
 void Window::Redraw() const
 {
 	RedrawWindow(window_handle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
@@ -46,12 +51,12 @@ unsigned int Window::GetWidth() const
 	return width;
 }
 
-void Window::ChangeTitle(const std::string& title)
+void Window::ChangeTitle(const std::string& title) const
 {
 	SetWindowText(window_handle, title.c_str());
 }
 
-void Window::SetFocus()
+void Window::SetFocus() const
 {
 	SetForegroundWindow(window_handle);
 }
