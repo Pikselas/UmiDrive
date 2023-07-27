@@ -1,21 +1,19 @@
 #pragma once
-#include"Window.h"
+#include"CustomWindow.h"
 
-class StandardWindow : public Window
+class StandardWindow : public CustomWindow
 {
 private:
-	class WindowClass
-	{
-	private:
-		constexpr static const char* classNm = "PikselasWindowClass";
-		WindowClass();
-		~WindowClass();
-		static WindowClass wndcls;
-		HINSTANCE hinst;
-	public:
-		constexpr static const char* GetName();
-		static HINSTANCE GetInstance();
-	};
+	bool Closed = false;
+	static std::atomic_uint WindowCount;
+public:
+	static void MainLoop(const StandardWindow* const window = nullptr, EventDispatcher e = DispatchWindowEvents);
 public:
 	StandardWindow(const std::string& Title = "Window", unsigned int Width = 800, unsigned int Height = 600 , StandardWindow* Parent = nullptr);
+	~StandardWindow();
+public:
+	bool IsOpen() const;
+	unsigned int GetWindowCount() const;
+protected:
+	LRESULT EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override;
 };

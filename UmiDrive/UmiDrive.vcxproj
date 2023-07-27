@@ -131,13 +131,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="StandardWindow.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomWindow.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="StandardWindow.h" />
+    <ClInclude Include="TextButton.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

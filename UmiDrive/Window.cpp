@@ -1,137 +1,10 @@
 #include"Window.h"
 
-std::atomic_uint Window::WindowCount = 0;
-
-LRESULT Window::StaticEventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam)
-{
-	Window* const wnd_ptr = reinterpret_cast<Window*>(GetWindowLongPtr(handle, GWLP_USERDATA));
-	return wnd_ptr->EventHandler(handle , msgcode , wparam , lparam);
-}
-
-LRESULT Window::EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam)
-{
-	switch (msgcode)
-	{
-	case WM_LBUTTONUP:
-	case WM_LBUTTONDOWN:
-	case WM_LBUTTONDBLCLK:
-	case WM_RBUTTONUP:
-	case WM_RBUTTONDOWN:
-	case WM_RBUTTONDBLCLK:
-	case WM_MOUSEMOVE:
-	{
-		POINTS pt = MAKEPOINTS(lparam);
-		mouse.x = pt.x;
-		mouse.y = pt.y;
-	}
-	}
-	switch (msgcode)
-	{
-	 case WM_CLOSE:
-		 Closed = true;
-		 --WindowCount;
-		 break;
-	 case WM_MOUSEMOVE:
-		 if (mouse.OnMove)
-		 {
-			 mouse.OnMove(*this);
-		 }
-		 break;
-	 case WM_LBUTTONUP:
-		 mouse.LeftPressed = false;
-		 if (mouse.OnLeftRelease)
-		 {
-			 mouse.OnLeftRelease(*this);
-		 }
-	 break;
-	 case WM_LBUTTONDOWN:
-		 mouse.LeftPressed = true;
-		 if (mouse.OnLeftPress)
-		 {
-			 mouse.OnLeftPress(*this);
-		 }
-	 break;
-	 case WM_LBUTTONDBLCLK:
-		 if (mouse.OnLeftDoubleClick)
-		 {
-			 mouse.OnLeftDoubleClick(*this);
-		}
-	 break;
-	 case WM_RBUTTONUP:
-		 mouse.RightPressed = false;
-		 if (mouse.OnRightRelease)
-		 {
-			 mouse.OnRightRelease(*this);
-		 }
-	 break;
-	 case WM_RBUTTONDOWN:
-		 mouse.RightPressed = true;
-		 if (mouse.OnRightPress)
-		 {
-			 mouse.OnRightPress(*this);
-		 }
-	 break;
-	 case WM_RBUTTONDBLCLK:
-		 if (mouse.OnRightDoubleClick)
-		 {
-			 mouse.OnRightDoubleClick(*this);
-		 }
-	 break;
-	 case WM_MOUSEWHEEL:
-		 {
-			mouse.wheelDelta = GET_WHEEL_DELTA_WPARAM(wparam) / WHEEL_DELTA;
-			if (mouse.OnWheel)
-			{
-				mouse.OnWheel(*this);
-			}
-		 }
-	 break;
-	 case WM_KEYDOWN:
-	 {
-		 //if repeated then bit 30 of lparam will be true
-		 constexpr unsigned int Mask = 0b1 << 30;
-		 bool repeated = ((Mask & lparam) != 0);
-		 if (!repeated || keyboard.IsRepeatEnabled())
-		 {
-			 keyboard.KEY_STAT[static_cast<unsigned char>(wparam)] = true;
-			 if (keyboard.OnKeyPress)
-			 {
-				 keyboard.OnKeyPress({*this , static_cast<unsigned char>(wparam)  , repeated});
-			 }
-		 }
-	 }
-	 break;
-	 case WM_KEYUP:
-	 {
-		 keyboard.KEY_STAT[static_cast<unsigned char>(wparam)] = false;
-		 if (keyboard.OnKeyRelease)
-		 {
-		   keyboard.OnKeyRelease({ *this , static_cast<unsigned char>(wparam)  , false });
-		 }
-	 }
-	 break;
-	 case WM_CHAR:
-	 {
-		 constexpr unsigned int Mask = 0b1 << 30;
-		 bool repeated = ((Mask & lparam) != 0);
-		 if (keyboard.OnCharInput)
-		 {
-			 keyboard.OnCharInput({ *this , static_cast<unsigned char>(wparam) , repeated });
-		 }
-	 }
-	 break;
-	 case WM_KILLFOCUS:
-		 mouse.Reset();
-		 keyboard.Reset();
-		 break;
-	}
-	return DefWindowProc(handle , msgcode , wparam , lparam);
-}
-
 Window::Window(Window * Parent , DWORD exStyle , const std::string& window_class , const std::string& title, DWORD Style , int x , int y , int width, int height)
 	: 
 height(height), width(width)
 {
+	Style |= WS_VISIBLE;
 
 	RECT wr = {0};
 	wr.right = width;
@@ -145,12 +18,6 @@ height(height), width(width)
 	if (window_handle == nullptr)
 	{
 		throw Exception(GetLastError());
-	}
-	else
-	{
-		SetWindowLongPtr(window_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-		SetWindowLongPtr(window_handle , GWLP_WNDPROC , reinterpret_cast<LONG_PTR>(StaticEventHandler));
-		++WindowCount;
 	}
 }
 
@@ -166,12 +33,7 @@ void Window::Redraw() const
 
 Window::~Window()
 {
-	if (!Closed)
-	{
-		DestroyWindow(window_handle);
-		Closed = true;
-		--WindowCount;
-	}
+	DestroyWindow(window_handle);
 }
 
 unsigned int Window::GetHeight() const
@@ -182,11 +44,6 @@ unsigned int Window::GetHeight() const
 unsigned int Window::GetWidth() const
 {
 	return width;
-}
-
-bool Window::IsOpen() const
-{
-	return !Closed;
 }
 
 void Window::ChangeTitle(const std::string& title)
@@ -202,25 +59,6 @@ void Window::SetFocus()
 void Window::ProcessEvents(EventDispatcher e) const
 {
 	e(window_handle);
-}
-
-void Window::MainLoop(const Window* const window, EventDispatcher e)
-{
-	MSG msg;
-	if (window != nullptr)
-	{
-		while (!window->Closed)
-		{
-			e(window->window_handle);
-		}
-	}
-	else
-	{
-		while (WindowCount > 0)
-		{
-			e(nullptr);
-		}
-	}
 }
 
 void Window::DispatchWindowEvents(const HWND handle)
@@ -242,75 +80,6 @@ void Window::DispatchWindowEventsNonBlocking(const HWND handle)
 		DispatchMessage(&msg);
 	}
 }
-
-unsigned int Window::GetWindowCount()
-{
-	return WindowCount;
-}
-
-int Window::Mouse::GetWheelDelta() const
-{
-	return wheelDelta;
-}
-
-bool Window::Mouse::IsLeftPressed() const
-{
-	return LeftPressed;
-}
-
-bool Window::Mouse::IsRightPressed() const
-{
-	return RightPressed;
-}
-
-int Window::Mouse::GetX() const
-{
-	return x;
-}
-
-int Window::Mouse::GetY() const
-{
-	return y;
-}
-
-std::pair<int, int> Window::Mouse::GetXY() const
-{
-	return {x , y};
-}
-
-void Window::Mouse::Reset()
-{
-	x = y = -1;
-	LeftPressed = RightPressed = false;
-}
-
-bool Window::KeyBoard::IsKeyDown(unsigned char keycode) const
-{
-	return KEY_STAT[keycode];
-}
-
-bool Window::KeyBoard::IsRepeatEnabled() const
-{
-	return REPEAT_ENABLED;
-}
-
-void Window::KeyBoard::EnableKeyRepeat()
-{
-	REPEAT_ENABLED = true;
-}
-
-void Window::KeyBoard::DisableKeyRepeat()
-{
-	REPEAT_ENABLED = false;
-}
-
-void Window::KeyBoard::Reset()
-{
-	KEY_STAT.reset();
-}
-
-Window::KeyBoard::EventT::EventT(Window& wnd, unsigned char code, bool repeat) : window(wnd) , KEY_CODE(code) , IS_REPEATED(repeat)
-{}
 
 Window::Exception::Exception(HRESULT hr , std::source_location s) : code(hr)
 {

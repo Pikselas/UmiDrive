@@ -1,37 +1,61 @@
 #include "StandardWindow.h"
 
-StandardWindow::WindowClass StandardWindow::WindowClass::wndcls;
+std::atomic_uint StandardWindow::WindowCount = 0;
 
-StandardWindow::WindowClass::WindowClass::WindowClass()
+void StandardWindow::MainLoop(const StandardWindow* const window , EventDispatcher e)
 {
-	hinst = GetModuleHandle(nullptr);
-	WNDCLASSEX wc = {};
-	wc.cbSize = sizeof(wc);
-	wc.hInstance = hinst;
-	wc.lpszClassName = classNm;
-	wc.style = CS_DBLCLKS;//Enables window to take double click events
-	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wc.lpfnWndProc = DefWindowProc;
-	//wc.hIcon = static_cast<HICON>(LoadImage(hinst, MAKEINTRESOURCE(IDI_ICON1) , IMAGE_ICON,48 , 48 , 0 ));
-	//wc.hIconSm = static_cast<HICON>(LoadImage(hinst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32 , 32 , 0));
-	RegisterClassEx(&wc);
-}
-StandardWindow::WindowClass::WindowClass::~WindowClass()
-{
-	UnregisterClass(classNm, hinst);
-}
-
-constexpr const char* StandardWindow::WindowClass::WindowClass::GetName()
-{
-	return classNm;
-}
-
-HINSTANCE StandardWindow::WindowClass::WindowClass::GetInstance()
-{
-	return wndcls.hinst;
+	MSG msg;
+	if (window != nullptr)
+	{
+		while (!window->Closed)
+		{
+			e(window->window_handle);
+		}
+	}
+	else
+	{
+		while (WindowCount > 0)
+		{
+			e(nullptr);
+		}
+	}
 }
 
 StandardWindow::StandardWindow(const std::string& Title, unsigned int Width, unsigned int Height , StandardWindow* Parent)
 	:
-Window(Parent , 0 , WindowClass::GetName() , Title , WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT , Width , Height )
-{}
+CustomWindow(Parent , 0 , Title , WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT , Width , Height )
+{
+	++WindowCount;
+}
+
+StandardWindow::~StandardWindow()
+{
+	if (!Closed)
+	{
+		DestroyWindow(window_handle);
+		Closed = true;
+		--WindowCount;
+	}
+}
+
+bool StandardWindow::IsOpen() const
+{
+	return !Closed;
+}
+
+unsigned int StandardWindow::GetWindowCount() const
+{
+	return WindowCount;
+}
+
+LRESULT StandardWindow::EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam)
+{
+	switch (msgcode)
+	{
+		case WM_CLOSE:
+			Closed = true;
+			--WindowCount;
+		break;
+	}
+	return CustomWindow::EventHandler(handle, msgcode, wparam, lparam);
+}
