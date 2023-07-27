@@ -8,7 +8,7 @@ public:
 	std::function<void(TextButton& button)> OnClick = nullptr;
 	std::function<void(TextButton& button)> OnDblClick = nullptr;
 public:
-	TextButton(CustomWindow* Parent, const std::string& text, int x, int y, int width, int height)
+	TextButton(CustomWindow& Parent, const std::string& text, int x, int y, int width, int height)
 		:
 		WindowComponent(Parent, 0, "Button", text, 0, x, y, width, height)
 	{}
