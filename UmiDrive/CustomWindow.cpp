@@ -8,7 +8,7 @@ CustomWindow::WindowClass::WindowClass()
 	wc.cbSize = sizeof(wc);
 	wc.hInstance = GetModuleHandle(nullptr);
 	wc.lpszClassName = classNm;
-	wc.style = CS_DBLCLKS;//Enables window to take double click events
+	wc.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW; //Enables window to take double click events + redrawing of window
 	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wc.lpfnWndProc = DefWindowProc;
 	//wc.hIcon = static_cast<HICON>(LoadImage(hinst, MAKEINTRESOURCE(IDI_ICON1) , IMAGE_ICON,48 , 48 , 0 ));
