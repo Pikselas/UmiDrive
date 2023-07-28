@@ -56,28 +56,16 @@ protected:
                 }
 
                 // Ensure that position remains within bounds
-                si.nPos = max(0, min(si.nPos, si.nMax));
-                SetScrollInfo(window_handle, SB_VERT, &si, TRUE);
-                struct Desc
-                {
-                    HWND h;
-                    int offset;
-                };
-                Desc desc;
-                desc.h = handle;
-                desc.offset = si.nPos - yPrevOffset;
-                EnumChildWindows(window_handle, [](HWND childWnd, LPARAM lparam)->BOOL 
-                {
-                    Desc* d = reinterpret_cast<Desc*>(lparam);
-                    RECT rectChild;
-                    GetWindowRect(childWnd, &rectChild);
-                    ScreenToClient( d->h, (LPPOINT)&rectChild);
-                    SetWindowPos(childWnd, nullptr, rectChild.left, rectChild.top - d->offset, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-                    return TRUE;
-                }, reinterpret_cast<LPARAM>(&desc));
+                si.nPos = max(0, min(si.nPos, si.nMax - si.nPage));
 
-                // Redraw the child windows
-                InvalidateRect(window_handle, NULL, TRUE);
+                if (si.nPos != yPrevOffset)
+				{
+					ScrollWindow(window_handle, 0, yPrevOffset - si.nPos, NULL, NULL);
+				}
+
+                si.fMask = SIF_POS;
+                SetScrollInfo(window_handle, SB_VERT, &si, TRUE);
+				return 0;
             }
         }
 		return CustomWindow::EventHandler(handle, msgcode, wparam, lparam);
