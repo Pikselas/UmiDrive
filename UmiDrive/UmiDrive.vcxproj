@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomWindow.h" />
+    <ClInclude Include="ImageWindow.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ScrollWindow.h" />
     <ClInclude Include="StandardWindow.h" />

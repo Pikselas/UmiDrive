@@ -2,6 +2,7 @@
 #include"TextButton.h"
 #include"ScrollWindow.h"
 #include "StandardWindow.h"
+#include"ImageWindow.h""
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow)
@@ -18,6 +19,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     Label LScroll2(sw, "INSIDE-SCROLL-2", 50, 100, 150, 20);
     Label LScroll3(sw, "INSIDE-SCROLL-3", 30, 200, 250, 40);
     Label LScroll4(sw, "INSIDE-SCROLL-4", 40, 650, 150, 20);
+
+    const auto img = LoadImage(NULL, "D:/SeqDownLogo.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+
+    ImageWindow imgwnd(sw, img , 0 , 400 , 400 , 400);
 
     Button1.OnClick = [& , i = 0](TextButton& btn)  mutable
     {
