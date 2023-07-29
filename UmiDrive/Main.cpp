@@ -2,7 +2,7 @@
 #include"TextButton.h"
 #include"ScrollWindow.h"
 #include "StandardWindow.h"
-#include"ImageWindow.h""
+#include "ImageButton.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow)
@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     const auto img = LoadImage(NULL, "D:/SeqDownLogo.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
-    ImageWindow imgwnd(sw, img , 0 , 400 , 400 , 400);
+    ImageButton imgwnd(sw, "TEST BUTTON" ,img, 10, 25, 200, 200);
 
     Button1.OnClick = [& , i = 0](TextButton& btn)  mutable
     {

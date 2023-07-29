@@ -53,5 +53,8 @@
     <ClInclude Include="ImageWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
