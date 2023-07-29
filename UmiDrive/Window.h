@@ -43,6 +43,9 @@ class Window
 		using EventDispatcher = void (&)(const HWND);
 		void ProcessEvents(EventDispatcher e = DispatchWindowEvents) const;
 	public:
+		Window(const Window&) = delete;
+		Window& operator=(const Window&) = delete;
+	public:
 		static void DispatchWindowEvents(const HWND handle = nullptr);
 		static void DispatchWindowEventsNonBlocking(const HWND handle = nullptr);
 };

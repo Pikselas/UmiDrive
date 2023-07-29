@@ -34,7 +34,7 @@ public:
 		std::pair<int, int> GetXY() const;
 		void Reset();
 	public:
-		using EventHandlerType = std::function<void(Window&)>;
+		using EventHandlerType = std::function<void(CustomWindow&)>;
 		EventHandlerType OnMove = nullptr;
 		EventHandlerType OnWheel = nullptr;
 		EventHandlerType OnLeftPress = nullptr;
@@ -59,10 +59,10 @@ public:
 	public:
 		struct EventT
 		{
-			Window& window;
+			CustomWindow& window;
 			unsigned char KEY_CODE;
 			bool IS_REPEATED;
-			EventT(Window& wnd, unsigned char code, bool repeat);
+			EventT(CustomWindow& wnd, unsigned char code, bool repeat);
 		};
 	public:
 		using EventHandlerType = std::function<void(EventT)>;

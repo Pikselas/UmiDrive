@@ -223,5 +223,5 @@ void CustomWindow::KeyBoard::Reset()
 	KEY_STAT.reset();
 }
 
-CustomWindow::KeyBoard::EventT::EventT(Window& wnd, unsigned char code, bool repeat) : window(wnd), KEY_CODE(code), IS_REPEATED(repeat)
+CustomWindow::KeyBoard::EventT::EventT(CustomWindow& wnd, unsigned char code, bool repeat) : window(wnd), KEY_CODE(code), IS_REPEATED(repeat)
 {}

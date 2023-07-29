@@ -6,7 +6,7 @@ class ImageWindow : public CustomWindow
 private:
 	const HANDLE hImage;
 public:
-	ImageWindow(CustomWindow& Parent ,const HANDLE& hImage  , int x , int y , int width , int height)
+	ImageWindow(CustomWindow& Parent ,const HANDLE hImage  , int x , int y , int width , int height)
 		:
 	CustomWindow(&Parent , 0 , "" , WS_CHILD , x , y , width , height),
 	hImage(hImage)
