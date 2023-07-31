@@ -155,7 +155,8 @@ LRESULT CustomWindow::EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPA
 		case WM_COMMAND:
 		{
 			auto component = reinterpret_cast<WindowComponent*>(GetWindowLongPtr(reinterpret_cast<HWND>(lparam) , GWLP_USERDATA));
-			component->PerformDefaultAction(wparam);
+			if (component)
+				component->PerformDefaultAction(wparam);
 			break;
 		}
 	}

@@ -144,6 +144,7 @@
     <ClInclude Include="ScrollWindow.h" />
     <ClInclude Include="StandardWindow.h" />
     <ClInclude Include="TextButton.h" />
+    <ClInclude Include="TextEntry.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowComponent.h" />
   </ItemGroup>
