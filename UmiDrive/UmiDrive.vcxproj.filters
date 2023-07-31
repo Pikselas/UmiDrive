@@ -59,5 +59,8 @@
     <ClInclude Include="TextEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DriveRuntime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
