@@ -6,7 +6,7 @@ class ScrollVerticalWindow : public CustomWindow
 public:
 	ScrollVerticalWindow( CustomWindow& Parent , int x , int y , int width , int height , int maxSize)
 		:
-	 CustomWindow(&Parent , 0 , "" , WS_CHILD | WS_VSCROLL , x , y , width , height)
+	 CustomWindow(&Parent , 0 , "" , WS_CHILD | WS_VSCROLL | WS_BORDER , x , y , width , height)
 	{
 		SCROLLINFO si;
 		si.cbSize = sizeof(SCROLLINFO);
@@ -18,7 +18,7 @@ public:
 		SetScrollInfo(window_handle, SB_VERT, &si, TRUE);
 	}
 protected:
-	LRESULT EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override
+	LRESULT CALLBACK EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override
 	{
         switch (msgcode)
         {

@@ -12,7 +12,7 @@ public:
 	hImage(hImage)
 	{}
 protected:
-	LRESULT EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override
+	LRESULT CALLBACK EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override
 	{
 		switch (msgcode)
 		{

@@ -15,5 +15,5 @@ public:
 	bool IsOpen() const;
 	unsigned int GetWindowCount() const;
 protected:
-	LRESULT EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override;
+	LRESULT CALLBACK EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override;
 };
