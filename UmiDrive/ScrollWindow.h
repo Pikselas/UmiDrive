@@ -17,6 +17,18 @@ public:
 		si.nPos = 0;
 		SetScrollInfo(window_handle, SB_VERT, &si, TRUE);
 	}
+public:
+    void SetScrollMax(int max)
+    {
+		SCROLLINFO si;
+		si.cbSize = sizeof(SCROLLINFO);
+		si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
+		si.nMin = 0;
+		si.nMax = max;
+		si.nPage = GetHeight();
+		si.nPos = 0;
+		SetScrollInfo(window_handle, SB_VERT, &si, TRUE);
+	}
 protected:
 	LRESULT CALLBACK EventHandler(HWND handle, UINT msgcode, WPARAM wparam, LPARAM lparam) override
 	{
