@@ -11,8 +11,8 @@ public:
 public:
 	std::string GetText() const
 	{
-		std::vector<char> text(GetWindowTextLength(window_handle) + 1);
-		GetWindowText(window_handle, (LPSTR)text.data(), text.size());
-		return std::string(text.begin() , text.end());
+		std::vector<char> text(GetWindowTextLength(window_handle) + 1 , 0);
+		int length = GetWindowText(window_handle, (LPSTR)text.data(), text.size());
+		return std::string(text.begin() , text.begin() + length);
 	}
 };
