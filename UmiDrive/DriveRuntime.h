@@ -8,11 +8,11 @@ class DriveRuntime
 private:
 	HMODULE hDl;
 public:
-	using dir_callback =					void (*)(const char*, unsigned long long, char);
-	static int (*LoadDrive)					(char* token, int l1, char* email, int l2);
+	using dir_callback =					void (*)(const char* name, unsigned long long length, char isDir,void * data);
+	static int (*LoadDrive)					(const char* token, int l1, const char* email, int l2);
 	static void (*UnloadDrive)				(int ID);
-	static void (*GetCurrDirFiles)			(int driveID, dir_callback cb);
-	static int (*LoadFile)					(int driveID, char* path, int l);
+	static void (*GetCurrDirFiles)			(int driveID, void* data, dir_callback cb);
+	static int (*LoadFile)					(int driveID, const char* path, int l);
 	static long long int (*ReadLoadedFile)	(int driveID, int fileID, void* buf, long long unsigned int size);
 	static void (*CloseFile)				(int driveID, int fileID);
 private:
@@ -71,9 +71,9 @@ private:
 
 DriveRuntime DriveRuntime::instance;
 
-int (*DriveRuntime::LoadDrive) (char* token, int l1, char* email, int l2);
+int (*DriveRuntime::LoadDrive) (const char* token, int l1,const char* email, int l2);
 void (*DriveRuntime::UnloadDrive) (int ID);
-void (*DriveRuntime::GetCurrDirFiles) (int driveID, dir_callback cb);
-int (*DriveRuntime::LoadFile) (int driveID, char* path, int l);
+void (*DriveRuntime::GetCurrDirFiles) (int driveID, void* data, dir_callback cb);
+int (*DriveRuntime::LoadFile) (int driveID,const char* path, int l);
 long long int (*DriveRuntime::ReadLoadedFile) (int driveID, int fileID, void* buf, long long unsigned int size);
 void (*DriveRuntime::CloseFile) (int driveID, int fileID);
