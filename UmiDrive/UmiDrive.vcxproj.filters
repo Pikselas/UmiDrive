@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Spike">
+      <UniqueIdentifier>{949e94f3-dff1-4586-9e31-aa1affdb78ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Spike\Header Files">
+      <UniqueIdentifier>{f46af887-529e-456d-b705-b872f362e937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Spike\Source Files">
+      <UniqueIdentifier>{79d2c149-a699-4a53-b335-97589fa85e90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -26,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="CustomWindow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike\NetworkChannel.cpp">
+      <Filter>Spike\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike\NetworkManager.cpp">
+      <Filter>Spike\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike\NetworkServer.cpp">
+      <Filter>Spike\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +79,63 @@
     </ClInclude>
     <ClInclude Include="DriveRuntime.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\CustomOutStream.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\Exception.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\HeadParser.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\HttpException.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\HttpHeaders.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\HttpServer.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\NetworkChannel.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\NetworkException.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\NetworkManager.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\NetworkServer.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\OutFileStream.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\OutRawStream.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\OutStream.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\OutStringStream.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\ParserTools.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\PathPattern.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\Request.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\Response.h">
+      <Filter>Spike\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike\ResponseLocker.h">
+      <Filter>Spike\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Spike\NetworkChannel.cpp" />
+    <ClCompile Include="Spike\NetworkManager.cpp" />
+    <ClCompile Include="Spike\NetworkServer.cpp" />
     <ClCompile Include="StandardWindow.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -151,6 +154,25 @@
     <ClInclude Include="ImageWindow.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ScrollWindow.h" />
+    <ClInclude Include="Spike\CustomOutStream.h" />
+    <ClInclude Include="Spike\Exception.h" />
+    <ClInclude Include="Spike\HeadParser.h" />
+    <ClInclude Include="Spike\HttpException.h" />
+    <ClInclude Include="Spike\HttpHeaders.h" />
+    <ClInclude Include="Spike\HttpServer.h" />
+    <ClInclude Include="Spike\NetworkChannel.h" />
+    <ClInclude Include="Spike\NetworkException.h" />
+    <ClInclude Include="Spike\NetworkManager.h" />
+    <ClInclude Include="Spike\NetworkServer.h" />
+    <ClInclude Include="Spike\OutFileStream.h" />
+    <ClInclude Include="Spike\OutRawStream.h" />
+    <ClInclude Include="Spike\OutStream.h" />
+    <ClInclude Include="Spike\OutStringStream.h" />
+    <ClInclude Include="Spike\ParserTools.h" />
+    <ClInclude Include="Spike\PathPattern.h" />
+    <ClInclude Include="Spike\Request.h" />
+    <ClInclude Include="Spike\Response.h" />
+    <ClInclude Include="Spike\ResponseLocker.h" />
     <ClInclude Include="StandardWindow.h" />
     <ClInclude Include="TextButton.h" />
     <ClInclude Include="TextEntry.h" />
